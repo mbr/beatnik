@@ -1,8 +1,8 @@
 import os
 
-from flask import Blueprint, Flask
+from flask import Flask, make_response
 from flask.ext.arrest import RestBlueprint
-from flask.ext.arrest.helpers import serialize_response
+from hype.mime import application_json
 from sqlalchemy import create_engine
 
 from flask_debug import Debug
@@ -45,9 +45,12 @@ api = RestBlueprint('api', __name__)
 api.outgoing.add_mimetype('application/beatnik+json')
 
 
-@api.route('/')
-def index():
-    return serialize_response({'hello': 'world'})
+@api.content_renderer.renders('application/beatnik+json')
+def render_beatnik_json(data, mimetype):
+    buf = application_json.serialize(data, logging_url_for)
+    response = make_response(buf)
+    response.headers['Content-Type'] = 'application/beatnik+json'
+    return response
 
 
 def create_app(configfile=None):

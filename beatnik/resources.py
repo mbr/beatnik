@@ -35,4 +35,5 @@ def query_users(ctx):
 
 @User.route(['user', '/dump/'], methods=['GET'])
 def dump_user(ctx):
-    return '{!r}'.format(ctx)
+    return ctx.params['user']
+    #return '{!r}'.format(ctx.params)
