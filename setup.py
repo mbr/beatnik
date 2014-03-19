@@ -20,5 +20,6 @@ setup(
     url='http://github.com/mbr/beatnik',
     license='MIT',
     packages=find_packages(exclude=['tests']),
-    install_requires=['flask', 'flask-hype', 'flask-sqlalchemy'],
+    install_requires=['flask', 'flask-hype', 'flask-sqlalchemy',
+                      'flask-appconfig', 'flask-debug'],
 )
