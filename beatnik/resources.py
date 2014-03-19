@@ -25,3 +25,14 @@ class User(hype.Resource):
 
     id = Integer()
     name = String()
+
+
+# routes
+@User.route('users', methods=['GET'])
+def query_users(ctx):
+    return '{!r}'.format(ctx)
+
+
+@User.route(['user', '/dump/'], methods=['GET'])
+def dump_user(ctx):
+    return '{!r}'.format(ctx)

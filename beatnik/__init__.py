@@ -1,6 +1,8 @@
 import os
 
 from flask import Blueprint, Flask
+from flask.ext.arrest import RestBlueprint
+from flask.ext.arrest.helpers import serialize_response
 from sqlalchemy import create_engine
 
 from flask_debug import Debug
@@ -39,35 +41,20 @@ create_fixtures(session)
 session.commit()
 
 
-api = Blueprint('api', __name__)
+api = RestBlueprint('api', __name__)
+api.outgoing.add_mimetype('application/beatnik+json')
 
 
-@api.route('/user/<int:user_id>/')
-def get_user(user_id):
-    res = UserResource.from_id(user_id)
-
-    return render_object_json(res)
-
-
-@User.route(
-    'users', methods=['GET'],
-    )
-def query_users(ctx):
-    return '{!r}'.format(ctx)
-
-
-@User.route(
-    ['user', '/dump/'], methods=['GET'],
-)
-def dump_user(ctx):
-    return '{!r}'.format(ctx)
+@api.route('/')
+def index():
+    return serialize_response({'hello': 'world'})
 
 
 def create_app(configfile=None):
     app = Flask(__name__)
 
-    app.register_blueprint(api)
+    hype.init_blueprint(api)
+    app.register_blueprint(api, url_prefix='/api')
     Debug(app)
-    hype.init_app(app)
 
     return app

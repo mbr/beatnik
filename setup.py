@@ -21,5 +21,5 @@ setup(
     license='MIT',
     packages=find_packages(exclude=['tests']),
     install_requires=['flask', 'flask-hype', 'flask-sqlalchemy',
-                      'flask-appconfig', 'flask-debug'],
+                      'flask-appconfig', 'flask-debug', 'flask-arrest'],
 )
