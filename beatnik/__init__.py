@@ -1,5 +1,3 @@
-import os
-
 from flask import Flask, make_response
 from flask.ext.arrest import RestBlueprint
 from hype.mime import application_json
@@ -17,28 +15,8 @@ def logging_url_for(*args, **kwargs):
     return None
 
 
-def render_object_json(obj):
-    from hype.mime.application_json import serialize
-
-    return serialize(obj, logging_url_for)
-
-
 # database setup
 from resources import User, hype
-
-
-dbpath = '/tmp/devdb'
-if os.path.exists(dbpath):
-    os.unlink(dbpath)
-
-engine = create_engine('sqlite:///' + dbpath, echo=True)
-Base.metadata.create_all(bind=engine)
-Session.configure(bind=engine)
-
-# create some sample data
-session = Session()
-create_fixtures(session)
-session.commit()
 
 
 api = RestBlueprint('api', __name__)
@@ -54,6 +32,20 @@ def render_beatnik_json(data, mimetype):
 
 
 def create_app(configfile=None):
+    # we do something silly here
+    dbpath = '/tmp/devdb'
+    engine = create_engine('sqlite:///' + dbpath, echo=False)
+
+    # create db structure
+    Base.metadata.create_all(bind=engine)
+    Session.configure(bind=engine)
+
+    # create some sample data
+    session = Session()
+    create_fixtures(session)
+    session.commit()
+
+    # create app
     app = Flask(__name__)
 
     hype.init_blueprint(api)
