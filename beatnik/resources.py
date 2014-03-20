@@ -26,6 +26,13 @@ class User(hype.Resource):
     id = Integer()
     name = String()
 
+    def to_dict(self):
+        # FIXME: this is a workaroundu
+        return {
+            'id': self.id,
+            'name': self.name,
+        }
+
 
 class Playlist(hype.Resource):
     @classmethod
