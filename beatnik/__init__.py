@@ -1,24 +1,13 @@
 import os
-from flask import Flask, make_response
 
+from flask import Flask, make_response
 from flask.ext.arrest import RestBlueprint
 from flask.ext.arrest.json import json_enc
 from sqlalchemy import create_engine
 
 from flask_debug import Debug
-
 from model import create_fixtures, Session
 from model import Base
-
-
-def logging_url_for(*args, **kwargs):
-    print 'URL_FOR_CALLED'
-    print args
-    print kwargs
-    return None
-
-
-# database setup
 from resources import User, hype
 
 
