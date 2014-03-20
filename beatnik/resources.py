@@ -27,6 +27,15 @@ class User(hype.Resource):
     name = String()
 
 
+class Playlist(hype.Resource):
+    @classmethod
+    def _obj_from_id(cls, id):
+        # FIXME: this is broken atm, needs a solution that works with nesting
+        import pdb
+        pdb.set_trace()
+        return int(id)
+
+
 # routes
 @User.route('users', methods=['GET'])
 def query_users(ctx):
@@ -42,3 +51,10 @@ def query_users(ctx):
 @User.route(['user'], methods=['GET'])
 def dump_user(ctx):
     return ctx.params['user']
+
+
+@Playlist.route(['user', 'playlist'], methods=['GET'])
+def dump_playlist(ctx):
+    import pdb
+    pdb.set_trace()
+    return ''
