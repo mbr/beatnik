@@ -31,8 +31,12 @@ class User(hype.Resource):
 @User.route('users', methods=['GET'])
 def query_users(ctx):
     session = model.Session()
-    users = session.query(model.User).limit(10)
-    return users.all()
+    qry = session.query(model.User)
+    print ctx.params
+    limit = ctx.params['args'].get('limit')
+    if limit:
+        qry = qry.limit(int(limit))
+    return qry.all()
 
 
 @User.route(['user'], methods=['GET'])
