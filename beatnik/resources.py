@@ -41,7 +41,6 @@ class Playlist(hype.Resource):
 def query_users(ctx):
     session = model.Session()
     qry = session.query(model.User)
-    print ctx.params
     limit = ctx.params['args'].get('limit')
     if limit:
         qry = qry.limit(int(limit))
