@@ -30,10 +30,11 @@ class User(hype.Resource):
 # routes
 @User.route('users', methods=['GET'])
 def query_users(ctx):
-    return '{!r}'.format(ctx)
+    session = model.Session()
+    users = session.query(model.User).limit(10)
+    return users.all()
 
 
-@User.route(['user', '/dump/'], methods=['GET'])
+@User.route(['user'], methods=['GET'])
 def dump_user(ctx):
     return ctx.params['user']
-    #return '{!r}'.format(ctx.params)
