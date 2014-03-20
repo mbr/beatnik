@@ -21,6 +21,13 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode)
 
+    def to_dict(self):
+        # FIXME: this is a workaroundu
+        return {
+            'id': self.id,
+            'name': self.name,
+        }
+
 
 class Playlist(Base):
     __tablename__ = 'playlist'

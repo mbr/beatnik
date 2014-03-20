@@ -2,10 +2,11 @@ import os
 from flask import Flask, make_response
 
 from flask.ext.arrest import RestBlueprint
-from hype.mime import application_json
+from flask.ext.arrest.json import json_enc
 from sqlalchemy import create_engine
 
 from flask_debug import Debug
+
 from model import create_fixtures, Session
 from model import Base
 
@@ -27,7 +28,14 @@ api.outgoing.add_mimetype('application/beatnik+json')
 
 @api.content_renderer.renders('application/beatnik+json')
 def render_beatnik_json(data, mimetype):
-    buf = application_json.serialize(data, logging_url_for)
+    # FIXME: for now, we do not have a cleaned up replacement for the
+    # rendering capabilities of hype yet
+    #
+    # Currently, the model objects seem to be in need of being registered
+    # with hype, which seems slightly questionable?
+    #
+    # FIXME: Hack for now - just dump some json directly from the model
+    buf = json_enc.encode(data)
     response = make_response(buf)
     response.headers['Content-Type'] = 'application/beatnik+json'
     return response
