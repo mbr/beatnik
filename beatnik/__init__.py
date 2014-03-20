@@ -1,4 +1,6 @@
+import os
 from flask import Flask, make_response
+
 from flask.ext.arrest import RestBlueprint
 from hype.mime import application_json
 from sqlalchemy import create_engine
@@ -34,6 +36,8 @@ def render_beatnik_json(data, mimetype):
 def create_app(configfile=None):
     # we do something silly here
     dbpath = '/tmp/devdb'
+    if os.path.exists(dbpath):
+        os.unlink(dbpath)
     engine = create_engine('sqlite:///' + dbpath, echo=False)
 
     # create db structure
